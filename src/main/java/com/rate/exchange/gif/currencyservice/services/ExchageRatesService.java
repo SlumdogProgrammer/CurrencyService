@@ -1,6 +1,7 @@
 package com.rate.exchange.gif.currencyservice.services;
 
 import com.rate.exchange.gif.currencyservice.clients.ExchangeRatesClient;
+import com.rate.exchange.gif.currencyservice.models.ExchangeRate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,15 +20,17 @@ public class ExchageRatesService {
     @Value("${openexchagerates.symbols}")
     private String symbols;
 
-    private LocalDate yesterday = LocalDate.now().minusDays(1);
-
     @Autowired
     private ExchangeRatesClient exchangeRatesClient;
 
-    public boolean todayMore() {
-        var yesterdayRate = exchangeRatesClient.getHistorical(yesterday.toString(), app_id, base, symbols);
-        var todayRate = exchangeRatesClient.getLatest(app_id, base, symbols);
-        if (yesterdayRate.getRate().get(symbols) < todayRate.getRate().get(symbols)) {
+    public boolean todayMore(String currency) {
+        if (currency != null)
+            symbols = currency;
+        ExchangeRate yesterdayRate = exchangeRatesClient.
+                getHistorical(LocalDate.now().minusDays(1).toString(), app_id, base, symbols);
+        ExchangeRate todayRate = exchangeRatesClient.getLatest(app_id, base, symbols);
+        System.out.println(yesterdayRate.getRates());
+        if (yesterdayRate.getRates().get(symbols) < todayRate.getRates().get(symbols)) {
             return true;
         }
         return false;

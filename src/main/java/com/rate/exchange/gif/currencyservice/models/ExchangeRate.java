@@ -6,9 +6,9 @@ import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class ExchangeRate {
-    private Map<String,Double> rate;
+    private Map<String, Double> rates;
 
-    public Map<String, Double> getRate() {
-        return rate;
+    public Map<String, Double> getRates() {
+        return rates;
     }
 }

@@ -1,4 +1,6 @@
 # CurrencyService
+Docker
+--
 ### Создание образа
 docker build -t test-task
 ### Запуск контейнера
